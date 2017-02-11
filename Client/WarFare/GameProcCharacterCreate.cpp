@@ -179,12 +179,12 @@ bool CGameProcCharacterCreate::MsgSendCharacterCreate()
 //	}
 	else if(CLASS_UNKNOWN == s_pPlayer->m_InfoBase.eClass)
 	{
-		eErrCode = ERROR_CHARACTER_CREATE_INVALID_CLASS;
+		eErrCode = ERROR_CHARACTER_CREATE_INVALID_SPECIALITY;
 	}
-	else if(m_pUICharacterCreate->m_iBonusPoint > 0)
+	/*else if(m_pUICharacterCreate->m_iBonusPoint > 0)
 	{
 		eErrCode = ERROR_CHARACTER_CREATE_REMAIN_BONUS_POINT;
-	}
+	}*/
 	else
 	{
 		// 이름에 빈칸이나 특수문자가 들어 있는지 확인
@@ -271,29 +271,30 @@ void CGameProcCharacterCreate::ReportErrorCharacterCreate(e_ErrorCharacterCreate
 
 	if (ERROR_CHARACTER_CREATE_NO_MORE_CHARACTER == eErrCode)
 		szErr = "You cannot create anymore characters.";//::_LoadStringFromResource(IDS_ERR_NO_MORE_CHARACTER, szErr);
-	else if(ERROR_CHARACTER_CREATE_INVALID_NATION_AND_INVALID_RACE == eErrCode)
+	else if (ERROR_CHARACTER_CREATE_INVALID_NATION_AND_INVALID_RACE == eErrCode)
 		szErr = "The selected nation and the race does not match. ";//::_LoadStringFromResource(IDS_ERR_INVALID_NATION_RACE, szErr);
-	else if(ERROR_CHARACTER_CREATE_OVERLAPPED_ID == eErrCode)
+	else if (ERROR_CHARACTER_INVALID_CHARACTER_POSITION == eErrCode)
+		szErr = "The selected character position invalid";
+	else if (ERROR_CHARACTER_CREATE_OVERLAPPED_ID == eErrCode)
 		szErr = "This ID is already used on another character.";//::_LoadStringFromResource(IDS_ERR_OVERLAPPED_ID, szErr);
-	else if(ERROR_CHARACTER_CREATE_DB_CREATE == eErrCode)
-		szErr = "Failed creating Database";//::_LoadStringFromResource(IDS_ERR_DB_CREATE, szErr);
-	else if(ERROR_CHARACTER_CREATE_INVALID_NAME == eErrCode)
+	else if (ERROR_CHARACTER_CREATE_SERVER_ERROR == eErrCode)
+		szErr = "Unknown error. Please try again later.";//::_LoadStringFromResource(IDS_ERR_DB_CREATE, szErr);
+	else if (ERROR_CHARACTER_CREATE_INVALID_NAME == eErrCode)
 		szErr = "Please enter your character ID.";//::_LoadStringFromResource(IDS_ERR_INVALID_NAME, szErr);
-	else if(ERROR_CHARACTER_CREATE_INVALID_NAME_HAS_SPECIAL_LETTER == eErrCode)
+	else if (ERROR_CHARACTER_CREATE_INVALID_NAME_HAS_SPECIAL_LETTER == eErrCode)
 		szErr = "You cannot use this character ID.";//::_LoadStringFromResource(IDS_ERR_INVALID_NAME_HAS_SPECIAL_LETTER, szErr);
-	else if(ERROR_CHARACTER_CREATE_INVALID_RACE == eErrCode)
+	else if (ERROR_CHARACTER_CREATE_INVALID_RACE == eErrCode)
 		szErr = "Please select a race.";//::_LoadStringFromResource(IDS_ERR_INVALID_RACE, szErr);
-	else if(ERROR_CHARACTER_CREATE_NOT_SUPPORTED_RACE == eErrCode)
+	else if (ERROR_CHARACTER_CREATE_NOT_SUPPORTED_RACE == eErrCode)
 		szErr = "This race is not available yet.";//::_LoadStringFromResource(IDS_ERR_NOT_SUPPORTED_RACE, szErr);
-	else if(ERROR_CHARACTER_CREATE_INVALID_CLASS == eErrCode)
+	else if (ERROR_CHARACTER_CREATE_INVALID_SPECIALITY == eErrCode)
 		szErr = "Please select a specialty.";//::_LoadStringFromResource(IDS_ERR_INVALID_CLASS, szErr);
-	else if(ERROR_CHARACTER_CREATE_REMAIN_BONUS_POINT == eErrCode)
-		szErr = "There are stat points still remaining.";//::_LoadStringFromResource(IDS_ERR_REMAIN_BONUS_POINT, szErr);
-	else if(ERROR_CHARACTER_CREATE_INVALID_STAT_POINT == eErrCode)
-		szErr = "Unknown error.";//::_LoadStringFromResource(IDS_ERR_UNKNOWN, szErr);
+	/*else if (ERROR_CHARACTER_CREATE_REMAIN_BONUS_POINT == eErrCode)
+		szErr = "There are stat points still remaining.";//::_LoadStringFromResource(IDS_ERR_REMAIN_BONUS_POINT, szErr);*/
+	else if (ERROR_CHARACTER_CREATE_INVALID_STAT_POINT == eErrCode)
+		szErr = "Invalid stat point";//::_LoadStringFromResource(IDS_ERR_UNKNOWN, szErr);
 	else
 		szErr = "Unknown error.";//::_LoadStringFromResource(IDS_ERR_UNKNOWN, szErr);
-
 	
 	std::string szTitle = "Failed creating character"; //::_LoadStringFromResource(IDS_ERR_CHARACTER_CREATE, szTitle);
 	MessageBoxPost(szErr, szTitle, MB_OK);
